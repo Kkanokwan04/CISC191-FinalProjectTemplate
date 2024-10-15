@@ -247,102 +247,106 @@ public class TicTacToe extends Application{
      * Method for checking who won
      */
     public void Check(){
-        int count=0;
-
-
-        //rows
-        // iterates over each row
-        for(int row = 0; row < 3; row++){
-            // If the first button of the row is empty, it skips the check for that row using
-            // continue
-            if(buttons[row][0].getText().equals("")){
-                continue;
+        int count = 0;
+        // Check rows
+        for (int row = 0; row < 3; row++) {
+            if (buttons[row][0].getText().equals("")) {
+                continue; // Skip if first cell in the row is empty
             }
-            // Checks if all the buttons in the row have the same value
-            if(buttons[row][0].getText().equals(buttons[row][1].getText()) && buttons[row][0].getText().equals(buttons[row][2].getText())){
-                // If they do, then the board is disabled
+            if (buttons[row][0].getText().equals(buttons[row][1].getText()) &&
+                    buttons[row][0].getText().equals(buttons[row][2].getText())) {
+
+                gameOver = true;
                 disableBoard();
-                // The current player's win count is incremented
-                if(getCurrentTurn().equals("X")){
-                    Xwins++;
-                }else{
-                    Owins++;
+
+                if (getCurrentTurn().equals("X")) {
+                    Xwins++;  // Increment X wins
+                    Xscore.setText("X: " + Xwins);  // Update X score label
+                } else {
+                    Owins++;  // Increment O wins
+                    Oscore.setText("O: " + Owins);  // Update O score label
                 }
-                // prints the result
-                System.out.println(getCurrentTurn()+ " wins");
+
+                System.out.println(getCurrentTurn() + " wins");
                 return;
             }
         }
 
-
-        //columns
-        // iterates over each column
-        for(int col = 0; col < 3; col++){
-            // skips the check if the first button in the column is empty
-            if(buttons[0][col].getText().equals("")){
+        // Check columns
+        for (int col = 0; col < 3; col++) {
+            if (buttons[0][col].getText().equals("")) {
                 continue;
             }
-            // Checks if all buttons in that column have the same text. If true, it declares a win
-            if(buttons[0][col].getText().equals(buttons[1][col].getText()) && buttons[0][col].getText().equals(buttons[2][col].getText())){
-                // Disables the board
+            if (buttons[0][col].getText().equals(buttons[1][col].getText()) &&
+                    buttons[0][col].getText().equals(buttons[2][col].getText())) {
+
+                gameOver = true;
                 disableBoard();
-                if(getCurrentTurn().equals("X")){
+
+                if (getCurrentTurn().equals("X")) {
                     Xwins++;
-                }else{
+                    Xscore.setText("X: " + Xwins);
+                } else {
                     Owins++;
+                    Oscore.setText("O: " + Owins);
                 }
-                // Prints the winner
-                System.out.println(getCurrentTurn()+ " wins");
+
+                System.out.println(getCurrentTurn() + " wins");
                 return;
             }
         }
 
+        // Check diagonal (top-left to bottom-right)
+        if (buttons[0][0].getText().equals(buttons[1][1].getText()) &&
+                buttons[0][0].getText().equals(buttons[2][2].getText()) &&
+                !buttons[0][0].getText().isEmpty()) {
 
-        //diagonal 1 ( top left to bottom right)
-        if(buttons[0][0].getText().equals(buttons[1][1].getText()) && buttons[0][0].getText().equals(buttons[2][2].getText()) && !(buttons[0][0].getText().equals(""))){
-
-            // Disables the board
+            gameOver = true;
             disableBoard();
-            if(getCurrentTurn().equals("X")){
-                // Updates the win count
+
+            if (getCurrentTurn().equals("X")) {
                 Xwins++;
-            }else{
+                Xscore.setText("X: " + Xwins);
+            } else {
                 Owins++;
+                Oscore.setText("O: " + Owins);
             }
-            // Prints the winner
-            System.out.println(getCurrentTurn()+ " wins");
+
+            System.out.println(getCurrentTurn() + " wins");
             return;
         }
 
+        // Check diagonal (top-right to bottom-left)
+        if (buttons[0][2].getText().equals(buttons[1][1].getText()) &&
+                buttons[0][2].getText().equals(buttons[2][0].getText()) &&
+                !buttons[0][2].getText().isEmpty()) {
 
-        //diagonal 2 ( top right to bottom left)
-        if(buttons[0][2].getText().equals(buttons[1][1].getText()) && buttons[0][2].getText().equals(buttons[2][0].getText()) && !(buttons[0][2].getText().equals(""))){
-            // Disables the board
+            gameOver = true;
             disableBoard();
-            if(getCurrentTurn().equals("X")){
+
+            if (getCurrentTurn().equals("X")) {
                 Xwins++;
-            }else{
+                Xscore.setText("X: " + Xwins);
+            } else {
                 Owins++;
+                Oscore.setText("O: " + Owins);
             }
-            // Prints the winner
-            System.out.println(getCurrentTurn()+ " wins");
+
+            System.out.println(getCurrentTurn() + " wins");
             return;
         }
 
-
-        //tie
-        // Loops through the entire gameboard
-        for(int i=0;i<3;i++){
-            for(int j=0;j<3;j++){
-                if(!(buttons[i][j].getText().equals(""))){
+        // Check for tie
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (!buttons[i][j].getText().isEmpty()) {
                     count++;
-
                 }
             }
         }
-        // if all buttons are filled, it means no empty spots remain
-        if(count==9){
-            System.out.println("tie");
+
+        if (count == 9) {
+            System.out.println("It's a tie!");
             disableBoard();
         }
     }
